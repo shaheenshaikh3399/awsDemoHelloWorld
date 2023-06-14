@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
@@ -16,3 +16,58 @@
     <h1>Hello Shaheen</h1>
   </body>
 </html>
+ -->
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Store Names in DynamoDB</title>
+</head>
+<body>
+    <h1>Enter First Name and Last Name</h1>
+    <form id="nameForm" onsubmit="submitForm(event)">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required><br><br>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        function submitForm(event) {
+            event.preventDefault();
+            
+            const firstName = document.getElementById("firstName").value;
+            const lastName = document.getElementById("lastName").value;
+            
+            const data = {
+                firstName: firstName,
+                lastName: lastName
+            };
+            
+            fetch('arn:aws:lambda:us-east-1:080472738177:function:new_fun', {
+                method: 'POST',
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                alert("Names stored successfully!");
+            })
+            .catch(error => {
+                console.error(error);
+                alert("Failed to store names!");
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+
+ 
