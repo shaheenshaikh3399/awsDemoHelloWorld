@@ -1,73 +1,70 @@
-<!-- <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title></title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="" />
-  </head>
-  <body>
-    <h1>Hello Shaheen</h1>
-  </body>
-</html>
- -->
-
-
-
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Store Names in DynamoDB</title>
-</head>
-<body>
-    <h1>Enter First Name and Last Name</h1>
-    <form id="nameForm" onsubmit="submitForm(event)">
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName" required><br><br>
-
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="lastName" required><br><br>
-
-        <input type="submit" value="Submit">
-    </form>
-
+    <meta charset="UTF-8">
+    <title>To the Power of Math!</title>
+    <style>
+    h1 {
+        color: #FFFFFF;
+        font-family: system-ui;
+		margin-left: 20px;
+        }
+	body {
+        background-color: #222629;
+        }
+    label {
+        color: #86C232;
+        font-family: system-ui;
+        font-size: 20px;
+        margin-left: 20px;
+		margin-top: 20px;
+        }
+     button {
+        background-color: #86C232;
+		border-color: #86C232;
+		color: #FFFFFF;
+        font-family: system-ui;
+        font-size: 20px;
+		font-weight: bold;
+        margin-left: 30px;
+		margin-top: 20px;
+		width: 140px;
+        }
+	 input {
+        color: #222629;
+        font-family: system-ui;
+        font-size: 20px;
+        margin-left: 10px;
+		margin-top: 20px;
+		width: 100px;
+        }
+    </style>
     <script>
-        function submitForm(event) {
-            event.preventDefault();
-            
-            const firstName = document.getElementById("firstName").value;
-            const lastName = document.getElementById("lastName").value;
-            
-            const data = {
-                firstName: firstName,
-                lastName: lastName
-            };
-            
-            fetch('ciojuq0rva/', {
+        var callAPI = (first_name,last_name)=>{
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            var raw = JSON.stringify({"firstName":first_name,"lastName":last_name});
+            var requestOptions = {
                 method: 'POST',
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                alert("Names stored successfully!");
-            })
-            .catch(error => {
-                console.error(error);
-                alert("Failed to store names!");
-            });
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+            fetch("https://ciojuq0rva.execute-api.us-east-1.amazonaws.com/dev", requestOptions)
+            .then(response => response.text())
+            .then(result => alert(JSON.parse(result).body))
+            .catch(error => console.log('error', error));
         }
     </script>
+</head>
+<body>
+    <h1>AWS POC</h1>
+	<form>
+        <label>First Name:</label>
+        <input type="text" id="first_name">
+        <label>Last Name:</label>
+        <input type="text" id="last_name">
+        <button type="button" onclick="callAPI(document.getElementById('first_name').value,document.getElementById('last_name').value)">CALL API</button>
+    </form>
 </body>
 </html>
-
-
-
- 
